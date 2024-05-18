@@ -1,22 +1,16 @@
-// ** MUI Imports
-import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
+// Icon
+import { useState } from 'react'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import EditIcon from '@mui/icons-material/Edit'
+import { Card, CardHeader, Grid, IconButton, Link, Typography } from '@mui/material'
 
-// ** Demo Components Imports
-import TableBasic from 'src/views/tables/TableBasic'
-import TableDense from 'src/views/tables/TableDense'
-import TableSpanning from 'src/views/tables/TableSpanning'
-import TableCustomized from 'src/views/tables/TableCustomized'
-import TableCollapsible from 'src/views/tables/TableCollapsible'
-import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 import CustomTable from 'src/views/tables/CustomTable'
-import { IconButton } from '@mui/material'
+import FormModal from './modal/form-modal'
 
-const MUITable = () => {
+const UserManagement = () => {
+  const [tempItem, setTempItem] = useState(null)
+  const [isOpenFormModal, setIsOpenFormModal] = useState(false)
+
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
@@ -53,9 +47,29 @@ const MUITable = () => {
       headerAlign: 'center',
       renderCell: params => {
         return (
-          <IconButton onClick={() => console.log(123)}>
-            <VisibilityIcon />
-          </IconButton>
+          <>
+            <IconButton
+              onClick={() => {
+                console.log(123)
+              }}
+            >
+              <VisibilityIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setTempItem(params?.row)
+                setIsOpenFormModal(true)
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton onClick={() => console.log(123)}>
+              <VisibilityIcon />
+            </IconButton>
+            <IconButton onClick={() => console.log(123)}>
+              <VisibilityIcon />
+            </IconButton>
+          </>
         )
       }
     }
@@ -82,15 +96,19 @@ const MUITable = () => {
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 }
   ]
 
+  const handleSubmit = values => {
+    console.log(values)
+  }
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Typography variant='h5'>
           <Link href='https://mui.com/components/tables/' target='_blank'>
-            MUI Tables
+            Quản lý người dùng
           </Link>
         </Typography>
-        <Typography variant='body2'>Tables display sets of data. They can be fully customized</Typography>
+        <Typography variant='body2'>Quản lý thông tin người dùng</Typography>
       </Grid>
       <Grid item xs={12}>
         <Card>
@@ -98,44 +116,17 @@ const MUITable = () => {
           <CustomTable rows={rows} columns={columns} defaultPageSize={5} isViewFilter={true} />
         </Card>
       </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Basic Table' titleTypographyProps={{ variant: 'h6' }} />
-          <TableBasic />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Dense Table' titleTypographyProps={{ variant: 'h6' }} />
-          <TableDense />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Sticky Header' titleTypographyProps={{ variant: 'h6' }} />
-          <TableStickyHeader />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Collapsible Table' titleTypographyProps={{ variant: 'h6' }} />
-          <TableCollapsible />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Spanning Table' titleTypographyProps={{ variant: 'h6' }} />
-          <TableSpanning />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Customized Table' titleTypographyProps={{ variant: 'h6' }} />
-          <TableCustomized />
-        </Card>
-      </Grid>
+
+      <FormModal
+        title={'Sửa người dùng'}
+        isOpenFormModal={isOpenFormModal}
+        setIsOpenFormModal={setIsOpenFormModal}
+        tempItem={tempItem}
+        setTempItem={setTempItem}
+        onSubmit={handleSubmit}
+      />
     </Grid>
   )
 }
 
-export default MUITable
+export default UserManagement
