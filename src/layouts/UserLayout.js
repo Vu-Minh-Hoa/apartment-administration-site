@@ -1,8 +1,8 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { useEffect, useState } from 'react'
 
-// ** Layout Imports
 // !Do not remove this Layout import
 import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 
@@ -15,19 +15,23 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { UserAuth } from 'src/context/AuthContext'
+import { useRouter } from 'next/router'
 
 const UserLayout = ({ children }) => {
-  // ** Hooks
+  const { user } = UserAuth()
+  const router = useRouter()
   const { settings, saveSettings } = useSettings()
+  const [loading, setLoading] = useState(true)
 
-  /**
-   *  The below variable will hide the current layout menu at given screen size.
-   *  The menu will be accessible from the Hamburger icon only (Vertical Overlay Menu).
-   *  You can change the screen size from which you want to hide the current layout menu.
-   *  Please refer useMediaQuery() hook: https://mui.com/components/use-media-query/,
-   *  to know more about what values can be passed to this hook.
-   *  ! Do not change this value unless you know what you are doing. It can break the template.
-   */
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      await new Promise(resolve => setTimeout(resolve, 50))
+      setLoading(false)
+    }
+    checkAuthentication()
+  }, [user])
+
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
 
   const UpgradeToProImg = () => {
