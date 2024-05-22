@@ -25,7 +25,9 @@ const FormModal = ({ title, isOpenFormModal, setIsOpenFormModal, tempItem, setTe
       open={isOpenFormModal}
       onCancel={() => {
         setIsOpenFormModal(false)
-        setTempItem(null)
+        if (tempItem) {
+          setTempItem(null)
+        }
       }}
       cancelLabel={'Hủy'}
       submitLabel={'Cập nhật'}
@@ -39,7 +41,7 @@ const FormModal = ({ title, isOpenFormModal, setIsOpenFormModal, tempItem, setTe
           confirmPassword: Yup.string()
             .nullable()
             .required('Trường này bắt buộc phải điền!')
-            .test(_, (value, context) => {
+            .test('', (value, context) => {
               if (value !== context.parent.password) {
                 return context.createError({
                   message: 'Mật khẩu không khớp'

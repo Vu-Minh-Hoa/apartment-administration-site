@@ -14,30 +14,33 @@ const UserManagement = () => {
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: 'fullName',
+      headerName: 'Full name',
       width: 150,
       renderCell: params => {
-        return params?.row?.user?.name
+        return params?.row?.firstName + ' ' + params?.row?.lastName
       }
     },
     {
-      field: 'lastName',
-      headerName: 'Last name',
-      width: 150
+      field: 'email',
+      headerName: 'Email',
+      width: 150,
+      renderCell: params => {
+        return params?.row?.email
+      }
     },
     {
-      field: 'age',
-      headerName: 'Age',
+      field: 'phoneNumber',
+      headerName: 'Phone number',
       type: 'number',
-      width: 110
+      width: 110,
+      renderCell: params => params?.row?.phoneNumber
     },
     {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160
+      field: 'gender',
+      headerName: 'Gender',
+      width: 160,
+      renderCell: params => (params?.row?.gender ? 'Male' : 'Female')
     },
     {
       field: 'Action',
@@ -80,6 +83,8 @@ const UserManagement = () => {
       id: 1,
       lastName: 'Snow',
       firstName: 'Jon',
+      email: 'nguyenvana@gmail.com',
+      phoneNumber: '123456789',
       age: 14,
       user: {
         name: '1',
